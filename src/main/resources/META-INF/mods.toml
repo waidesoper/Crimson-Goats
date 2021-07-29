@@ -6,7 +6,7 @@ issueTrackerURL="https://github.com/MeinKraft/Crimson-Goats/issues"
 [[mods]]
 modId="crimsongoats"
 updateJSONURL = "https://github.com/MeinKraft/Crimson-Goats/raw/main/update.json"
-version="1.17.1-1.0.0"
+version="1.17.1-1.0.1"
 displayName="Crimson Goats"
 authors="§4Crimson_Fluff"
 logoFile="logo.png"

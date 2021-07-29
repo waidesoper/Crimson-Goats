@@ -1,5 +1,6 @@
 package crimsonfluff.crimsongoats;
 
+import crimsonfluff.crimsongoats.init.blocksInit;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import crimsonfluff.crimsongoats.init.itemsInit;
 import net.minecraft.world.item.CreativeModeTab;
@@ -24,6 +25,7 @@ public class CrimsonGoats {
     public CrimsonGoats() {
         entitiesInit.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         itemsInit.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+        blocksInit.BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, CONFIGURATION.SERVER);
 

@@ -2,6 +2,7 @@ package crimsonfluff.crimsongoats.entities;
 
 import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
+import crimsonfluff.crimsongoats.init.itemsInit;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -77,7 +78,7 @@ public class CrimsonGoatEntity extends Goat {
                     case 13 -> item = new ItemStack(Items.GREEN_WOOL);
                     case 14 -> item = new ItemStack(Items.RED_WOOL);
                     case 15 -> item = new ItemStack(Items.BLACK_WOOL);
-                    case 99 -> item = new ItemStack(level.random.nextBoolean() ? Items.PINK_WOOL : Items.BLACK_WOOL);
+                    case 99 -> item = new ItemStack(itemsInit.GOAT_MISSING_WOOL.get());
                 }
 
                 ItemEntity itementity = this.spawnAtLocation(item);
@@ -91,7 +92,7 @@ public class CrimsonGoatEntity extends Goat {
                         mimic.copyPosition(this);
                         this.level.addFreshEntity(mimic);
 
-                        mimic.getPersistentData().putInt("shearColour", iGOAT_COLOUR);
+                        //mimic.getPersistentData().putInt("shearColour", iGOAT_COLOUR);
                     }
                 }
 

@@ -4,7 +4,12 @@ import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.items.CrimsonSpawnEggItem;
 import crimsonfluff.crimsongoats.items.GoatSteak;
 import crimsonfluff.crimsongoats.items.GoatSteakCooked;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
@@ -66,4 +71,6 @@ public class itemsInit {
 
     public static final RegistryObject<Item> GOAT_STEAK = ITEMS.register("goat_steak", GoatSteak::new);
     public static final RegistryObject<Item> GOAT_STEAK_COOKED = ITEMS.register("goat_steak_cooked", GoatSteakCooked::new);
+    public static final RegistryObject<Item> GOAT_MISSING_WOOL = ITEMS.register("missing_wool", ()->
+        new BlockItem(blocksInit.GOAT_MISSING_WOOL_BLOCK.get(), new Item.Properties().tab(CrimsonGoats.TAB)));
 }
