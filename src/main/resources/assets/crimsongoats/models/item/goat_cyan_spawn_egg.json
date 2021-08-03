@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "crimsongoats:item/goat_cyan_spawn_egg"
+  }
+}
