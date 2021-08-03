@@ -1,6 +1,8 @@
-package crimsonfluff.crimsongoats;
+package crimsonfluff.crimsongoats.events;
 
+import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.entities.CrimsonGoatEntity;
+import crimsonfluff.crimsongoats.entities.CrimsonGoatShearedEntity;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import crimsonfluff.crimsongoats.items.CrimsonSpawnEggItem;
 import net.minecraft.world.entity.EntityType;
@@ -11,11 +13,6 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = CrimsonGoats.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBusEvents {
-//    @SubscribeEvent
-//    public static void entityRegister(final RegistryEvent.Register<EntityType<?>> event){
-//        Spawns.PlacementManager();
-//    }
-
     @SubscribeEvent
     public static void onRegisterEntities(final RegistryEvent.Register<EntityType<?>> event){
         CrimsonSpawnEggItem.init();
@@ -40,5 +37,7 @@ public class ModBusEvents {
         event.put(entitiesInit.GOAT_BLACK.get(), CrimsonGoatEntity.createAttributes().build());
         event.put(entitiesInit.GOAT_PURPLE.get(), CrimsonGoatEntity.createAttributes().build());
         event.put(entitiesInit.GOAT_MISSING.get(), CrimsonGoatEntity.createAttributes().build());
+
+        event.put(entitiesInit.GOAT_SHEARED.get(), CrimsonGoatShearedEntity.createAttributes().build());
     }
 }

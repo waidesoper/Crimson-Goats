@@ -1,11 +1,12 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/",
   "promos": {
-    "1.17.1-latest": "1.0.1",
-    "1.17.1-recommended": "1.0.1"
+    "1.17.1-latest": "1.0.2",
+    "1.17.1-recommended": "1.0.2"
   },
   "1.17.1": {
     "1.0.0": "Initial Release. MC 1.17.1, Forge 37.0.8",
-    "1.0.1": "Missing Wool Texture/Block. Re-worked textures"
+    "1.0.1": "Missing Wool Texture/Block. Re-worked textures",
+    "1.0.2": "Forge 37.0.18. New re-worked 'Missing' texture. Spawning. Corrected Health/Damage/Speed. Shearing"
   }
 }

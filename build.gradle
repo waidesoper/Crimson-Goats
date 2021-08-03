@@ -12,9 +12,8 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.17.1-1.0.1"
+version = "1.17.1-1.0.2"
 group = 'com.crimsonfluff.crimsongoats' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'CrimsonGoats'
 
 // Mojang ships Java 16 to end users in 1.17+ instead of Java 8 in 1.16 or lower, so your mod should target Java 16.
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
@@ -83,7 +82,7 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.8'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.18'
 
     //compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
     //runtimeOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-${top_version}")
