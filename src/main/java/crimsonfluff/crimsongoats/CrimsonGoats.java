@@ -38,6 +38,6 @@ public class CrimsonGoats {
     public static final CreativeModeTab TAB = new CreativeModeTab(CrimsonGoats.MOD_ID) {
         @OnlyIn(Dist.CLIENT)
         @Override
-        public ItemStack makeIcon() { return new ItemStack(itemsInit.GOAT_MISSING_SPAWN_EGG.get()); }
+        public ItemStack makeIcon() { return new ItemStack(itemsInit.GOAT_MISSING_WOOL.get()); }
     };
 }

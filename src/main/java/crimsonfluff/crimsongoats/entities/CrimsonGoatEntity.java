@@ -3,6 +3,10 @@ package crimsonfluff.crimsongoats.entities;
 import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import crimsonfluff.crimsongoats.init.itemsInit;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -22,11 +26,15 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class CrimsonGoatEntity extends Goat {
-    private final int iGOAT_COLOUR;
+    public static final EntityDataAccessor<Integer> DATA_COLOUR = SynchedEntityData.defineId(CrimsonGoatEntity.class, EntityDataSerializers.INT);
 
-    public CrimsonGoatEntity(EntityType<? extends Goat> entityIn, Level levelIn, int GOAT_COLOUR) {
+    public CrimsonGoatEntity(EntityType<? extends Goat> entityIn, Level levelIn) {
         super(entityIn, levelIn);
-        this.iGOAT_COLOUR = GOAT_COLOUR;
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_COLOUR, 0);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -48,7 +56,7 @@ public class CrimsonGoatEntity extends Goat {
                 itemstack.hurtAndBreak(1, playerIn, (p_29822_) -> { p_29822_.broadcastBreakEvent(hand); });
 
                 ItemStack item;
-                switch (this.iGOAT_COLOUR) {
+                switch (this.entityData.get(DATA_COLOUR)) {
                     default -> item = new ItemStack(Items.WHITE_WOOL);
                     case 1 -> item = new ItemStack(Items.ORANGE_WOOL);
                     case 2 -> item = new ItemStack(Items.MAGENTA_WOOL);
@@ -72,7 +80,7 @@ public class CrimsonGoatEntity extends Goat {
                 if (itementity != null) {
                     itementity.setDeltaMovement(itementity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
 
-                    CrimsonGoatShearedEntity mimic = entitiesInit.GOAT_SHEARED.get().create(this.level);
+                    CrimsonGoatShearedEntity mimic = entitiesInit.CRIMSON_GOAT_SHEARED.get().create(this.level);
                     if (mimic != null) {
                         mimic.copyPosition(this);
                         mimic.setCustomName(this.getCustomName());
@@ -81,7 +89,7 @@ public class CrimsonGoatEntity extends Goat {
                         mimic.setHealth(this.getHealth());
                         // set maximum health too
 
-                        mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
+                        mimic.setColour(this.entityData.get(DATA_COLOUR));
                         this.level.addFreshEntity(mimic);
 
                         this.remove(RemovalReason.DISCARDED);
@@ -97,26 +105,10 @@ public class CrimsonGoatEntity extends Goat {
                 this.remove(RemovalReason.DISCARDED);
 
                 CrimsonGoatEntity mimic;
-                switch (((DyeItem) itemstack.getItem()).getDyeColor().getId()) {
-                    default -> mimic = entitiesInit.GOAT_WHITE.get().create(this.level);
-                    case 1 -> mimic = entitiesInit.GOAT_ORANGE.get().create(this.level);
-                    case 2 -> mimic = entitiesInit.GOAT_MAGENTA.get().create(this.level);
-                    case 3 -> mimic = entitiesInit.GOAT_LIGHT_BLUE.get().create(this.level);
-                    case 4 -> mimic = entitiesInit.GOAT_YELLOW.get().create(this.level);
-                    case 5 -> mimic = entitiesInit.GOAT_LIME.get().create(this.level);
-                    case 6 -> mimic = entitiesInit.GOAT_PINK.get().create(this.level);
-                    case 7 -> mimic = entitiesInit.GOAT_GRAY.get().create(this.level);
-                    case 8 -> mimic = entitiesInit.GOAT_LIGHT_GRAY.get().create(this.level);
-                    case 9 -> mimic = entitiesInit.GOAT_CYAN.get().create(this.level);
-                    case 10 -> mimic = entitiesInit.GOAT_PURPLE.get().create(this.level);
-                    case 11 -> mimic = entitiesInit.GOAT_BLUE.get().create(this.level);
-                    case 12 -> mimic = entitiesInit.GOAT_BROWN.get().create(this.level);
-                    case 13 -> mimic = entitiesInit.GOAT_GREEN.get().create(this.level);
-                    case 14 -> mimic = entitiesInit.GOAT_RED.get().create(this.level);
-                    case 15 -> mimic = entitiesInit.GOAT_BLACK.get().create(this.level);
-                }
+                mimic = entitiesInit.CRIMSON_GOAT.get().create(this.level);
 
                 if (mimic != null) {
+                    mimic.setColour(((DyeItem) itemstack.getItem()).getDyeColor().ordinal());
                     mimic.copyPosition(this);
                     mimic.setCustomName(this.getCustomName());
                     mimic.setBaby(this.isBaby());
@@ -125,6 +117,8 @@ public class CrimsonGoatEntity extends Goat {
                     // set maximum health too
 
                     this.level.addFreshEntity(mimic);
+
+                    itemstack.shrink(1);
                 }
 
                 return InteractionResult.SUCCESS;
@@ -132,5 +126,21 @@ public class CrimsonGoatEntity extends Goat {
             } else return InteractionResult.CONSUME;
 
         } else return super.mobInteract(playerIn, hand);
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putInt("Color", this.entityData.get(DATA_COLOUR));
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.entityData.set(DATA_COLOUR, tag.getInt("Color"));
+    }
+
+    public void setColour(int c) {
+        this.entityData.set(DATA_COLOUR, c);
     }
 }

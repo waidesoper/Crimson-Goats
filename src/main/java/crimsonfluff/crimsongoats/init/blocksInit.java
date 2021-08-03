@@ -15,5 +15,4 @@ public class blocksInit {
 
     public static final RegistryObject<Block> GOAT_MISSING_WOOL_BLOCK = BLOCKS.register("missing_wool", ()->
         new Block(BlockBehaviour.Properties.of(Material.WOOL, MaterialColor.COLOR_PINK).strength(0.8F).sound(SoundType.WOOL)));
-
 }

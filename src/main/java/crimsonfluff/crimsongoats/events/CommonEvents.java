@@ -30,27 +30,11 @@ public class CommonEvents {
             event.setCanceled(true);
 
             CrimsonGoatEntity mimic;
-            switch (event.getWorld().random.nextInt(16)) {
-                default -> mimic = entitiesInit.GOAT_WHITE.get().create(event.getWorld());
-                case 1 -> mimic = entitiesInit.GOAT_ORANGE.get().create(event.getWorld());
-                case 2 -> mimic = entitiesInit.GOAT_MAGENTA.get().create(event.getWorld());
-                case 3 -> mimic = entitiesInit.GOAT_LIGHT_BLUE.get().create(event.getWorld());
-                case 4 -> mimic = entitiesInit.GOAT_YELLOW.get().create(event.getWorld());
-                case 5 -> mimic = entitiesInit.GOAT_LIME.get().create(event.getWorld());
-                case 6 -> mimic = entitiesInit.GOAT_PINK.get().create(event.getWorld());
-                case 7 -> mimic = entitiesInit.GOAT_GRAY.get().create(event.getWorld());
-                case 8 -> mimic = entitiesInit.GOAT_LIGHT_GRAY.get().create(event.getWorld());
-                case 9 -> mimic = entitiesInit.GOAT_CYAN.get().create(event.getWorld());
-                case 10 -> mimic = entitiesInit.GOAT_PURPLE.get().create(event.getWorld());
-                case 11 -> mimic = entitiesInit.GOAT_BLUE.get().create(event.getWorld());
-                case 12 -> mimic = entitiesInit.GOAT_BROWN.get().create(event.getWorld());
-                case 13 -> mimic = entitiesInit.GOAT_GREEN.get().create(event.getWorld());
-                case 14 -> mimic = entitiesInit.GOAT_RED.get().create(event.getWorld());
-                case 15 -> mimic = entitiesInit.GOAT_BLACK.get().create(event.getWorld());
-            }
+            mimic = entitiesInit.CRIMSON_GOAT.get().create(event.getWorld());
 
             if (mimic != null) {
                 mimic.setPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
+                mimic.setColour(event.getWorld().random.nextInt(17));
                 event.getWorld().addFreshEntity(mimic);
             }
         }
@@ -65,23 +49,7 @@ public class CommonEvents {
 //                CrimsonGoats.LOGGER.info("GOAT: " + mob.getWeight() + " : " + mob.minCount + " : " + mob.maxCount);
 //        });
 
-        if (spawns.removeIf(e -> e.type == EntityType.GOAT)) {
-            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_WHITE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_ORANGE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_MAGENTA.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_LIGHT_BLUE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_YELLOW.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_LIME.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_PINK.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_GRAY.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_LIGHT_GRAY.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_CYAN.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BLUE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BROWN.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_RED.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BROWN.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BLACK.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_PURPLE.get(), 10, 4, 6));
-        }
+        if (spawns.removeIf(e -> e.type == EntityType.GOAT))
+            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.CRIMSON_GOAT.get(), 10, 4, 6));
     }
 }

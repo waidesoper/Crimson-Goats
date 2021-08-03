@@ -9,11 +9,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class CrimsonGoatShearedRenderer extends MobRenderer<CrimsonGoatShearedEntity, CrimsonGoatShearedModel<CrimsonGoatShearedEntity>> {
-    private final ResourceLocation TEXTURE;
+    private final ResourceLocation TEXTURE = new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/white.png");
 
-    public CrimsonGoatShearedRenderer(EntityRendererProvider.Context p_174153_, ResourceLocation textureIn) {
+    public CrimsonGoatShearedRenderer(EntityRendererProvider.Context p_174153_) {
         super(p_174153_, new CrimsonGoatShearedModel<>(p_174153_.bakeLayer(CrimsonGoats.GOAT_SHEARED_MODEL_LOC)), 0.7F);
-        TEXTURE = textureIn;
     }
 
     @Override
