@@ -18,6 +18,8 @@
   "entity.crimsongoats.goat_black": "Black Goat",
   "entity.crimsongoats.goat_purple": "Purple Goat",
   "entity.crimsongoats.goat_missing": "The 'Missing' Goat",
+  "entity.crimsongoats.goat_missing_sheared": "Sheared 'Missing' Goat",
+  "entity.crimsongoats.goat_sheared": "Sheared Goat",
 
   "item.crimsongoats.goat_white_spawn_egg": "White Goat Spawn Egg",
   "item.crimsongoats.goat_orange_spawn_egg": "Orange Goat Spawn Egg",
