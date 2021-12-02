@@ -1,5 +1,6 @@
 package crimsonfluff.crimsongoats.entities;
 
+import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
@@ -11,10 +12,11 @@ import net.minecraft.world.level.Level;
 
 public class CrimsonGoatShearedEntity extends Goat {
     public int iGOAT_COLOUR = 0;
-    public int iGOAT_TIMER = random.nextInt(2000) + 2000;
+    public int iGOAT_TIMER;
 
     public CrimsonGoatShearedEntity(EntityType<? extends Goat> entityIn, Level levelIn) {
         super(entityIn, levelIn);
+        this.iGOAT_TIMER = random.nextInt(2000) + 2000;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -28,19 +30,26 @@ public class CrimsonGoatShearedEntity extends Goat {
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
         tag.putByte("Color", (byte)this.iGOAT_COLOUR);
-        tag.putInt("Timer", (byte)this.iGOAT_TIMER);
+        tag.putInt("Timer", this.iGOAT_TIMER);
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.iGOAT_COLOUR = tag.getByte("Color");
-        this.iGOAT_TIMER = tag.getInt("Timer");
+
+        // else when entity is created any values set in constructor will be overwritten
+        if (tag.contains("color"))
+            this.iGOAT_COLOUR = tag.getByte("Color");
+
+        if (tag.contains("Timer"))
+            this.iGOAT_TIMER = tag.getInt("Timer");
     }
 
     @Override
     public void tick() {
         super.tick();
+
+        if (this.level.isClientSide) return;
 
         iGOAT_TIMER--;
         if (iGOAT_TIMER == 0) {
@@ -62,15 +71,13 @@ public class CrimsonGoatShearedEntity extends Goat {
                 case 13 -> mimic = entitiesInit.GOAT_GREEN.get().create(this.level);
                 case 14 -> mimic = entitiesInit.GOAT_RED.get().create(this.level);
                 case 15 -> mimic = entitiesInit.GOAT_BLACK.get().create(this.level);
+                case 16 -> mimic = entitiesInit.GOAT_MISSING.get().create(this.level);
             }
 
             if (mimic != null) {
-                mimic.copyPosition(this);
-                mimic.setCustomName(this.getCustomName());
-                mimic.setBaby(this.isBaby());
-                mimic.setInvulnerable(this.isInvulnerable());
-                mimic.setHealth(this.getHealth());
-                // set maximum health too
+                CompoundTag oldGoat = this.saveWithoutId(new CompoundTag());
+                oldGoat.remove("UUID");
+                mimic.load(oldGoat);
 
                 this.level.addFreshEntity(mimic);
             }

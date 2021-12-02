@@ -4,6 +4,7 @@ import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.entities.CrimsonGoatEntity;
 import crimsonfluff.crimsongoats.entities.CrimsonGoatShearedEntity;
 import crimsonfluff.crimsongoats.init.entitiesInit;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.animal.goat.Goat;
@@ -50,7 +51,10 @@ public class CommonEvents {
             }
 
             if (mimic != null) {
-                mimic.setPos(event.getEntity().getX(), event.getEntity().getY(), event.getEntity().getZ());
+                CompoundTag oldGoat = event.getEntity().saveWithoutId(new CompoundTag());
+                oldGoat.remove("UUID");
+                mimic.load(oldGoat);
+
                 event.getWorld().addFreshEntity(mimic);
             }
         }
@@ -65,29 +69,7 @@ public class CommonEvents {
 //                CrimsonGoats.LOGGER.info("GOAT: " + mob.getWeight() + " : " + mob.minCount + " : " + mob.maxCount);
 //        });
 
-        if (spawns.removeIf(e -> e.type == EntityType.GOAT)) {
-//            CrimsonGoats.LOGGER.info("GOAT_BIOME: " + event.getName());
+        if (spawns.removeIf(e -> e.type == EntityType.GOAT))
             spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_WHITE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_ORANGE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_MAGENTA.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_LIGHT_BLUE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_YELLOW.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_LIME.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_PINK.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_GRAY.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_LIGHT_GRAY.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_CYAN.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BLUE.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BROWN.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_RED.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BROWN.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_BLACK.get(), 10, 4, 6));
-//            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_PURPLE.get(), 10, 4, 6));
-        }
-
-//        if (spawns.removeIf(e -> e.type == EntityType.SKELETON))
-//            spawns.add(new MobSpawnInfo.Spawners(EntityType.SKELETON, 50, 1, 1));
-//        if (spawns.removeIf(e -> e.type == EntityType.SPIDER))
-//            spawns.add(new MobSpawnInfo.Spawners(EntityType.SPIDER, 50, 1, 1));
     }
 }

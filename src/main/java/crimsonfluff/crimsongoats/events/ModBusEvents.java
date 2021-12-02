@@ -39,5 +39,6 @@ public class ModBusEvents {
         event.put(entitiesInit.GOAT_MISSING.get(), CrimsonGoatEntity.createAttributes().build());
 
         event.put(entitiesInit.GOAT_SHEARED.get(), CrimsonGoatShearedEntity.createAttributes().build());
+        event.put(entitiesInit.GOAT_SHEARED_MISSING.get(), CrimsonGoatShearedEntity.createAttributes().build());
     }
 }

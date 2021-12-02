@@ -34,6 +34,7 @@ public class ModBusEventsClient {
         event.registerEntityRenderer(entitiesInit.GOAT_MISSING.get(), p_174153_ -> new CrimsonGoatRenderer(p_174153_, new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/missing.png")));
 
         event.registerEntityRenderer(entitiesInit.GOAT_SHEARED.get(), p_174153_ -> new CrimsonGoatShearedRenderer(p_174153_, new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/white.png")));
+        event.registerEntityRenderer(entitiesInit.GOAT_SHEARED_MISSING.get(), p_174153_ -> new CrimsonGoatShearedRenderer(p_174153_, new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/missing_sheared.png")));
     }
 
     @SubscribeEvent

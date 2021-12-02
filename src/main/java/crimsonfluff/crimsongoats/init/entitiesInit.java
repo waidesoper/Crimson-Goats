@@ -85,4 +85,8 @@ public class entitiesInit {
     public static final RegistryObject<EntityType<CrimsonGoatShearedEntity>> GOAT_SHEARED = ENTITIES.register("goat_sheared",
         () -> EntityType.Builder.of(CrimsonGoatShearedEntity::new, MobCategory.CREATURE)
             .sized(0.9F, 1.3F).clientTrackingRange(10).build(new ResourceLocation(CrimsonGoats.MOD_ID, "goat_sheared").toString()));
+
+    public static final RegistryObject<EntityType<CrimsonGoatShearedEntity>> GOAT_SHEARED_MISSING = ENTITIES.register("goat_sheared_missing",
+        () -> EntityType.Builder.of(CrimsonGoatShearedEntity::new, MobCategory.CREATURE)
+            .sized(0.9F, 1.3F).clientTrackingRange(10).build(new ResourceLocation(CrimsonGoats.MOD_ID, "goat_sheared_missing").toString()));
 }

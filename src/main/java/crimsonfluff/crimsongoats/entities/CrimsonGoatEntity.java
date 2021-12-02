@@ -3,6 +3,7 @@ package crimsonfluff.crimsongoats.entities;
 import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import crimsonfluff.crimsongoats.init.itemsInit;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -68,18 +69,18 @@ public class CrimsonGoatEntity extends Goat {
                     case 16 -> item = new ItemStack(itemsInit.GOAT_MISSING_WOOL.get());
                 }
 
-                ItemEntity itementity = this.spawnAtLocation(item);
-                if (itementity != null) {
-                    itementity.setDeltaMovement(itementity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
+                ItemEntity itemEntity = this.spawnAtLocation(item);
+                if (itemEntity != null) {
+                    itemEntity.setDeltaMovement(itemEntity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
 
-                    CrimsonGoatShearedEntity mimic = entitiesInit.GOAT_SHEARED.get().create(this.level);
+                    CrimsonGoatShearedEntity mimic = this.iGOAT_COLOUR == 16
+                        ? entitiesInit.GOAT_SHEARED_MISSING.get().create(this.level)
+                        : entitiesInit.GOAT_SHEARED.get().create(this.level);
+
                     if (mimic != null) {
-                        mimic.copyPosition(this);
-                        mimic.setCustomName(this.getCustomName());
-                        mimic.setBaby(this.isBaby());
-                        mimic.setInvulnerable(this.isInvulnerable());
-                        mimic.setHealth(this.getHealth());
-                        // set maximum health too
+                        CompoundTag oldGoat = this.saveWithoutId(new CompoundTag());
+                        oldGoat.remove("UUID");
+                        mimic.load(oldGoat);
 
                         mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
                         this.level.addFreshEntity(mimic);
@@ -117,12 +118,9 @@ public class CrimsonGoatEntity extends Goat {
                 }
 
                 if (mimic != null) {
-                    mimic.copyPosition(this);
-                    mimic.setCustomName(this.getCustomName());
-                    mimic.setBaby(this.isBaby());
-                    mimic.setInvulnerable(this.isInvulnerable());
-                    mimic.setHealth(this.getHealth());
-                    // set maximum health too
+                    CompoundTag oldGoat = this.saveWithoutId(new CompoundTag());
+                    oldGoat.remove("UUID");
+                    mimic.load(oldGoat);
 
                     this.level.addFreshEntity(mimic);
                 }
