@@ -1,6 +1,5 @@
 package crimsonfluff.crimsongoats.entities;
 
-import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;

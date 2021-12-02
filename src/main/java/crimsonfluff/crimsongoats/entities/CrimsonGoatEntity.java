@@ -4,6 +4,7 @@ import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import crimsonfluff.crimsongoats.init.itemsInit;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -44,7 +45,7 @@ public class CrimsonGoatEntity extends Goat {
             if (! CrimsonGoats.CONFIGURATION.enableShearing.get()) return InteractionResult.CONSUME;
 
             if (! this.level.isClientSide && ! this.isBaby()) {
-                this.level.playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, this.blockPosition(), SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.gameEvent(GameEvent.SHEAR, playerIn);
                 itemstack.hurtAndBreak(1, playerIn, (p_29822_) -> { p_29822_.broadcastBreakEvent(hand); });
 

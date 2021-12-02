@@ -22,7 +22,7 @@ repositories {
     }
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 sourceSets {
     api
