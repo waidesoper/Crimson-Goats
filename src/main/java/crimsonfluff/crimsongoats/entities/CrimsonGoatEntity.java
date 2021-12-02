@@ -44,7 +44,7 @@ public class CrimsonGoatEntity extends Goat {
             if (! CrimsonGoats.CONFIGURATION.enableShearing.get()) return InteractionResult.CONSUME;
 
             if (! this.level.isClientSide && ! this.isBaby()) {
-                this.level.playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound(null, this.blockPosition(), SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.gameEvent(GameEvent.SHEAR, playerIn);
                 itemstack.hurtAndBreak(1, playerIn, (p_29822_) -> { p_29822_.broadcastBreakEvent(hand); });
 
