@@ -11,7 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.common.util.Lazy;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.ArrayList;
 import java.util.List;

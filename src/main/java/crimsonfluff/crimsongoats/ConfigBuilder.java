@@ -1,7 +1,6 @@
 package crimsonfluff.crimsongoats;
-import net.minecraftforge.common.ForgeConfigSpec;
 
-import java.util.ArrayList;
+import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ConfigBuilder {
     public final ForgeConfigSpec SERVER;
@@ -9,14 +8,14 @@ public class ConfigBuilder {
     public ForgeConfigSpec.BooleanValue enableShearing;
 
     public ConfigBuilder() {
-        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
+        ForgeConfigSpec.Builder builder;
 
         builder = new ForgeConfigSpec.Builder();
         builder.push("Goats");
 
         enableShearing = builder
-            .comment("Enable the shearing of Goats.  Default: false")
-            .define("enableShearing",false);
+            .comment("Enable the shearing of Goats.  Default: true")
+            .define("enableShearing",true);
 
         builder.pop();
         SERVER = builder.build();

@@ -1,6 +1,9 @@
-package crimsonfluff.crimsongoats;
+package crimsonfluff.crimsongoats.events;
 
+import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.entities.CrimsonGoatRenderer;
+import crimsonfluff.crimsongoats.entities.CrimsonGoatShearedModel;
+import crimsonfluff.crimsongoats.entities.CrimsonGoatShearedRenderer;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -29,5 +32,12 @@ public class ModBusEventsClient {
         event.registerEntityRenderer(entitiesInit.GOAT_BLACK.get(), p_174153_ -> new CrimsonGoatRenderer(p_174153_, new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/black.png")));
         event.registerEntityRenderer(entitiesInit.GOAT_PURPLE.get(), p_174153_ -> new CrimsonGoatRenderer(p_174153_, new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/purple.png")));
         event.registerEntityRenderer(entitiesInit.GOAT_MISSING.get(), p_174153_ -> new CrimsonGoatRenderer(p_174153_, new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/missing.png")));
+
+        event.registerEntityRenderer(entitiesInit.GOAT_SHEARED.get(), p_174153_ -> new CrimsonGoatShearedRenderer(p_174153_, new ResourceLocation(CrimsonGoats.MOD_ID, "textures/entity/white.png")));
+    }
+
+    @SubscribeEvent
+    public static void registerRenderers(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(CrimsonGoats.GOAT_SHEARED_MODEL_LOC, CrimsonGoatShearedModel::createBodyLayer);
     }
 }

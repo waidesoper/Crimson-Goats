@@ -3,7 +3,6 @@ package crimsonfluff.crimsongoats.entities;
 import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import crimsonfluff.crimsongoats.init.itemsInit;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -18,12 +17,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class CrimsonGoatEntity extends Goat {
     private final int iGOAT_COLOUR;
-//    private int iGOAT_SHEAR_COLOUR;
 
     public CrimsonGoatEntity(EntityType<? extends Goat> entityIn, Level levelIn, int GOAT_COLOUR) {
         super(entityIn, levelIn);
@@ -31,31 +30,19 @@ public class CrimsonGoatEntity extends Goat {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().
-            add(Attributes.MAX_HEALTH, 4.0D).
-            add(Attributes.ATTACK_DAMAGE, 4.0D).
-            add(Attributes.MOVEMENT_SPEED, 0.25D);
+        return Mob.createMobAttributes()
+            .add(Attributes.MAX_HEALTH, 10.0D)
+            .add(Attributes.ATTACK_DAMAGE, 2.0D)
+            .add(Attributes.MOVEMENT_SPEED, 0.2D);
     }
-
-//    public void addAdditionalSaveData(CompoundTag tag) {
-//        super.addAdditionalSaveData(tag);
-//        //tag.putBoolean("Sheared", this.isSheared());
-////        tag.putByte("Color", (byte)this.iGOAT_COLOUR);
-//    }
-//
-//    public void readAdditionalSaveData(CompoundTag tag) {
-//        super.readAdditionalSaveData(tag);
-//        //this.setSheared(tag.getBoolean("Sheared"));
-////        this.iGOAT_COLOUR = tag.getByte("Color");
-//    }
 
     public InteractionResult mobInteract(Player playerIn, InteractionHand hand) {
         ItemStack itemstack = playerIn.getItemInHand(hand);
-        if (itemstack.getItem() == Items.SHEARS) {
+        if (itemstack.getItem() instanceof ShearsItem) {        // allow modded shears
 
             if (! CrimsonGoats.CONFIGURATION.enableShearing.get()) return InteractionResult.CONSUME;
 
-            if (! this.level.isClientSide) {
+            if (! this.level.isClientSide && ! this.isBaby()) {
                 this.level.playSound(null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.gameEvent(GameEvent.SHEAR, playerIn);
                 itemstack.hurtAndBreak(1, playerIn, (p_29822_) -> { p_29822_.broadcastBreakEvent(hand); });
@@ -78,21 +65,26 @@ public class CrimsonGoatEntity extends Goat {
                     case 13 -> item = new ItemStack(Items.GREEN_WOOL);
                     case 14 -> item = new ItemStack(Items.RED_WOOL);
                     case 15 -> item = new ItemStack(Items.BLACK_WOOL);
-                    case 99 -> item = new ItemStack(itemsInit.GOAT_MISSING_WOOL.get());
+                    case 16 -> item = new ItemStack(itemsInit.GOAT_MISSING_WOOL.get());
                 }
 
                 ItemEntity itementity = this.spawnAtLocation(item);
                 if (itementity != null) {
                     itementity.setDeltaMovement(itementity.getDeltaMovement().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
 
-                    this.remove(RemovalReason.DISCARDED);
-
-                    CrimsonGoatEntity mimic = entitiesInit.GOAT_WHITE.get().create(this.level);
+                    CrimsonGoatShearedEntity mimic = entitiesInit.GOAT_SHEARED.get().create(this.level);
                     if (mimic != null) {
                         mimic.copyPosition(this);
+                        mimic.setCustomName(this.getCustomName());
+                        mimic.setBaby(this.isBaby());
+                        mimic.setInvulnerable(this.isInvulnerable());
+                        mimic.setHealth(this.getHealth());
+                        // set maximum health too
+
+                        mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
                         this.level.addFreshEntity(mimic);
 
-                        //mimic.getPersistentData().putInt("shearColour", iGOAT_COLOUR);
+                        this.remove(RemovalReason.DISCARDED);
                     }
                 }
 
@@ -126,6 +118,12 @@ public class CrimsonGoatEntity extends Goat {
 
                 if (mimic != null) {
                     mimic.copyPosition(this);
+                    mimic.setCustomName(this.getCustomName());
+                    mimic.setBaby(this.isBaby());
+                    mimic.setInvulnerable(this.isInvulnerable());
+                    mimic.setHealth(this.getHealth());
+                    // set maximum health too
+
                     this.level.addFreshEntity(mimic);
                 }
 
