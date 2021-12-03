@@ -4,13 +4,16 @@ import crimsonfluff.crimsongoats.init.initBlocks;
 import crimsonfluff.crimsongoats.init.initEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.passive.GoatBrain;
 import net.minecraft.entity.passive.GoatEntity;
+import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.ShearsItem;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
@@ -19,19 +22,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
 public class CrimsonGoatEntity extends GoatEntity {
-    private final int iGOAT_COLOUR;
+    private int iGOAT_COLOUR;
 
     public CrimsonGoatEntity(EntityType<? extends GoatEntity> entityIn, World levelIn, int GOAT_COLOUR) {
         super(entityIn, levelIn);
         this.iGOAT_COLOUR = GOAT_COLOUR;
     }
-
-//    public static DefaultAttributeContainer.Builder createGoatAttributes() {
-//        return MobEntity.createMobAttributes()
-//            .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
-//            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.20000000298023224D)
-//            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D);
-//    }
 
     public ActionResult interactMob(PlayerEntity playerIn, Hand hand) {
         ItemStack itemstack = playerIn.getStackInHand(hand);
@@ -126,5 +122,38 @@ public class CrimsonGoatEntity extends GoatEntity {
             } else return ActionResult.CONSUME;
 
         } else return super.interactMob(playerIn, hand);
+    }
+
+    @Override
+    public GoatEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
+        CrimsonGoatEntity mimic;
+        switch (this.iGOAT_COLOUR) {
+            default -> mimic = initEntities.GOAT_WHITE.create(this.world);
+            case 1 -> mimic = initEntities.GOAT_ORANGE.create(this.world);
+            case 2 -> mimic = initEntities.GOAT_MAGENTA.create(this.world);
+            case 3 -> mimic = initEntities.GOAT_LIGHT_BLUE.create(this.world);
+            case 4 -> mimic = initEntities.GOAT_YELLOW.create(this.world);
+            case 5 -> mimic = initEntities.GOAT_LIME.create(this.world);
+            case 6 -> mimic = initEntities.GOAT_PINK.create(this.world);
+            case 7 -> mimic = initEntities.GOAT_GRAY.create(this.world);
+            case 8 -> mimic = initEntities.GOAT_LIGHT_GRAY.create(this.world);
+            case 9 -> mimic = initEntities.GOAT_CYAN.create(this.world);
+            case 10 -> mimic = initEntities.GOAT_PURPLE.create(this.world);
+            case 11 -> mimic = initEntities.GOAT_BLUE.create(this.world);
+            case 12 -> mimic = initEntities.GOAT_BROWN.create(this.world);
+            case 13 -> mimic = initEntities.GOAT_GREEN.create(this.world);
+            case 14 -> mimic = initEntities.GOAT_RED.create(this.world);
+            case 15 -> mimic = initEntities.GOAT_BLACK.create(this.world);
+            case 16 -> mimic = initEntities.GOAT_MISSING.create(this.world);
+        }
+
+        if (mimic != null) {
+            GoatBrain.resetLongJumpCooldown(mimic);     // TODO: access widener
+            boolean bl = passiveEntity instanceof CrimsonGoatEntity && ((CrimsonGoatEntity)passiveEntity).isScreaming();
+            mimic.setScreaming(bl || serverWorld.getRandom().nextDouble() < 0.02D);
+            mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
+        }
+
+        return mimic;
     }
 }

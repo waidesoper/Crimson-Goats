@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.QuadrupedEntityModel;
-import net.minecraft.entity.passive.GoatEntity;
 
 @Environment(EnvType.CLIENT)
 public class CrimsonGoatShearedModel<T extends CrimsonGoatShearedEntity> extends QuadrupedEntityModel<T> {

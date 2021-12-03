@@ -18,6 +18,7 @@
     "client": ["crimsonfluff.crimsongoats.client.initClient"],
     "main": ["crimsonfluff.crimsongoats.CrimsonGoats"]
   },
+  "accessWidener" : "crimsongoats.accesswidener",
   "depends": {
     "fabricloader": ">=0.12.6",
     "fabric": "*",

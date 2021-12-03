@@ -9,7 +9,11 @@ group = project.maven_group
 repositories {
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.bai.lol" }
-  }
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/crimsongoats.accesswidener")
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:1.18"

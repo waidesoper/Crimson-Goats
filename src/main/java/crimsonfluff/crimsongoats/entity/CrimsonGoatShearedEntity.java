@@ -15,13 +15,6 @@ public class CrimsonGoatShearedEntity extends GoatEntity {
         this.iGOAT_TIMER = random.nextInt(2000) + 2000;
     }
 
-//    public static DefaultAttributeContainer.Builder createGoatAttributes() {
-//        return MobEntity.createMobAttributes()
-//            .add(EntityAttributes.GENERIC_MAX_HEALTH, 10.0D)
-//            .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.20000000298023224D)
-//            .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 2.0D);
-//    }
-
     @Override
     public void writeCustomDataToNbt(NbtCompound tag) {
         super.writeCustomDataToNbt(tag);
@@ -82,4 +75,30 @@ public class CrimsonGoatShearedEntity extends GoatEntity {
             this.remove(RemovalReason.DISCARDED);
         }
     }
+
+    // dont work the way I want
+//    @Override
+//    public Text getName() {
+//        CrimsonGoats.LOGGER.info("COL: " + this.iGOAT_COLOUR);
+//
+//        switch (this.iGOAT_COLOUR) {
+//            default -> { return initEntities.GOAT_WHITE.getName(); }
+//            case 1 -> { return initEntities.GOAT_ORANGE.getName(); }
+//            case 2 -> { return initEntities.GOAT_MAGENTA.getName(); }
+//            case 3 -> { return initEntities.GOAT_LIGHT_BLUE.getName(); }
+//            case 4 -> { return initEntities.GOAT_YELLOW.getName(); }
+//            case 5 -> { return initEntities.GOAT_LIME.getName(); }
+//            case 6 -> { return initEntities.GOAT_PINK.getName(); }
+//            case 7 -> { return initEntities.GOAT_GRAY.getName(); }
+//            case 8 -> { return initEntities.GOAT_LIGHT_GRAY.getName(); }
+//            case 9 -> { return initEntities.GOAT_CYAN.getName(); }
+//            case 10 -> { return initEntities.GOAT_PURPLE.getName(); }
+//            case 11 -> { return initEntities.GOAT_BLUE.getName(); }
+//            case 12 -> { return initEntities.GOAT_BROWN.getName(); }
+//            case 13 -> { return initEntities.GOAT_GREEN.getName(); }
+//            case 14 -> { return initEntities.GOAT_RED.getName(); }
+//            case 15 -> { return initEntities.GOAT_BLACK.getName(); }
+//            case 16 -> { return initEntities.GOAT_MISSING.getName(); }
+//        }
+//    }
 }

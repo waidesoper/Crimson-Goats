@@ -1,0 +1,3 @@
+accessWidener	v1	named
+
+accessible method net/minecraft/entity/passive/GoatBrain resetLongJumpCooldown (Lnet/minecraft/entity/passive/GoatEntity;)V
