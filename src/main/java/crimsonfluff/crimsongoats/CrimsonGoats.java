@@ -63,7 +63,7 @@ public class CrimsonGoats implements ModInitializer {
                 entity.remove(Entity.RemovalReason.DISCARDED);
 
                 CrimsonGoatEntity mimic;
-                switch (serverWorld.random.nextInt(17)) {
+                switch (serverWorld.random.nextInt(16)) {
                     default -> mimic = initEntities.GOAT_WHITE.create(serverWorld);
                     case 1 -> mimic = initEntities.GOAT_ORANGE.create(serverWorld);
                     case 2 -> mimic = initEntities.GOAT_MAGENTA.create(serverWorld);
@@ -84,9 +84,11 @@ public class CrimsonGoats implements ModInitializer {
                 
                 if (mimic != null) {
                     NbtCompound nbtCompound = entity.writeNbt(new NbtCompound());
-//                    nbtCompound.remove("Dimension");
                     nbtCompound.remove("UUID");
                     mimic.readNbt(nbtCompound);
+
+                    mimic.bodyYaw = entity.getYaw();
+                    mimic.headYaw = entity.getHeadYaw();
 
                     serverWorld.spawnEntity(mimic);
                 }

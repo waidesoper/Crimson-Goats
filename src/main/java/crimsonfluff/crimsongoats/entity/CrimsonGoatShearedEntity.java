@@ -69,6 +69,9 @@ public class CrimsonGoatShearedEntity extends GoatEntity {
                 oldGoat.remove("UUID");
                 mimic.readNbt(oldGoat);
 
+                mimic.bodyYaw = this.bodyYaw;
+                mimic.headYaw = this.headYaw;
+
                 this.world.spawnEntity(mimic);
             }
 

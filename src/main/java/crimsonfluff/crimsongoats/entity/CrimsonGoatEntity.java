@@ -32,7 +32,6 @@ public class CrimsonGoatEntity extends GoatEntity {
     public ActionResult interactMob(PlayerEntity playerIn, Hand hand) {
         ItemStack itemstack = playerIn.getStackInHand(hand);
         if (itemstack.getItem() instanceof ShearsItem) {        // allow modded shears
-
 //            if (! CrimsonGoats.CONFIGURATION.enableShearing.get()) return InteractionResult.CONSUME;
 
             if (! this.world.isClient && ! this.isBaby()) {
@@ -74,6 +73,9 @@ public class CrimsonGoatEntity extends GoatEntity {
                         oldGoat.remove("UUID");
                         mimic.readNbt(oldGoat);
 
+                        mimic.bodyYaw = this.bodyYaw;
+                        mimic.headYaw = this.headYaw;
+
                         mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
                         this.world.spawnEntity(mimic);
 
@@ -83,7 +85,6 @@ public class CrimsonGoatEntity extends GoatEntity {
 
                 return ActionResult.SUCCESS;
             }
-            else return ActionResult.CONSUME;
 
         } else if (itemstack.getItem() instanceof DyeItem) {
             if (! this.world.isClient) {
@@ -114,14 +115,17 @@ public class CrimsonGoatEntity extends GoatEntity {
                     oldGoat.remove("UUID");
                     mimic.readNbt(oldGoat);
 
+                    mimic.bodyYaw = this.bodyYaw;
+                    mimic.headYaw = this.headYaw;
+
                     this.world.spawnEntity(mimic);
                 }
 
                 return ActionResult.SUCCESS;
+            }
+        }
 
-            } else return ActionResult.CONSUME;
-
-        } else return super.interactMob(playerIn, hand);
+        return super.interactMob(playerIn, hand);
     }
 
     @Override
@@ -148,7 +152,8 @@ public class CrimsonGoatEntity extends GoatEntity {
         }
 
         if (mimic != null) {
-            GoatBrain.resetLongJumpCooldown(mimic);     // TODO: access widener
+            GoatBrain.resetLongJumpCooldown(mimic);     // access widener
+
             boolean bl = passiveEntity instanceof CrimsonGoatEntity && ((CrimsonGoatEntity)passiveEntity).isScreaming();
             mimic.setScreaming(bl || serverWorld.getRandom().nextDouble() < 0.02D);
             mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
