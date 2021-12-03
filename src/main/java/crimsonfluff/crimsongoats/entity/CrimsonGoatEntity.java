@@ -1,12 +1,19 @@
 package crimsonfluff.crimsongoats.entity;
 
+import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.initBlocks;
 import crimsonfluff.crimsongoats.init.initEntities;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.GoatBrain;
 import net.minecraft.entity.passive.GoatEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
@@ -17,16 +24,26 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.DyeColor;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 public class CrimsonGoatEntity extends GoatEntity {
-    private int iGOAT_COLOUR;
+    public static final TrackedData<Byte> iGOAT_COLOUR = DataTracker.registerData(CrimsonGoatEntity.class, TrackedDataHandlerRegistry.BYTE);
+    public static final TrackedData<Boolean> iSHEARED = DataTracker.registerData(CrimsonGoatEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+//    public static final TrackedData<String> sTEXTURE = DataTracker.registerData(CrimsonGoatEntity.class, TrackedDataHandlerRegistry.STRING);
+    public boolean isSheared = false;
+    public Identifier texture;
 
-    public CrimsonGoatEntity(EntityType<? extends GoatEntity> entityIn, World levelIn, int GOAT_COLOUR) {
+    public CrimsonGoatEntity(EntityType<? extends GoatEntity> entityIn, World levelIn) {
         super(entityIn, levelIn);
-        this.iGOAT_COLOUR = GOAT_COLOUR;
     }
 
     public ActionResult interactMob(PlayerEntity playerIn, Hand hand) {
@@ -41,7 +58,7 @@ public class CrimsonGoatEntity extends GoatEntity {
                 itemstack.damage(1, playerIn, (p_29822_) -> { p_29822_.sendToolBreakStatus(hand); });
 
                 ItemStack item;
-                switch (this.iGOAT_COLOUR) {
+                switch (this.dataTracker.get(iGOAT_COLOUR)) {
                     default -> item = new ItemStack(Items.WHITE_WOOL);
                     case 1 -> item = new ItemStack(Items.ORANGE_WOOL);
                     case 2 -> item = new ItemStack(Items.MAGENTA_WOOL);
@@ -65,20 +82,7 @@ public class CrimsonGoatEntity extends GoatEntity {
                 if (itemEntity != null) {
                     itemEntity.setVelocity(itemEntity.getVelocity().add((this.random.nextFloat() - this.random.nextFloat()) * 0.1F, this.random.nextFloat() * 0.05F, (this.random.nextFloat() - this.random.nextFloat()) * 0.1F));
 
-                    CrimsonGoatShearedEntity mimic = this.iGOAT_COLOUR == 16
-                        ? initEntities.GOAT_MISSING_SHEARED.create(this.world)
-                        : initEntities.GOAT_SHEARED.create(this.world);
-
-                    if (mimic != null) {
-                        NbtCompound oldGoat = this.writeNbt(new NbtCompound());
-                        oldGoat.remove("UUID");
-                        mimic.readNbt(oldGoat);
-
-                        mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
-                        this.world.spawnEntity(mimic);
-
-                        this.remove(RemovalReason.DISCARDED);
-                    }
+                    this.dataTracker.set(iSHEARED, true);
                 }
 
                 return ActionResult.SUCCESS;
@@ -87,35 +91,10 @@ public class CrimsonGoatEntity extends GoatEntity {
 
         } else if (itemstack.getItem() instanceof DyeItem) {
             if (! this.world.isClient) {
-                this.remove(RemovalReason.DISCARDED);
-
-                CrimsonGoatEntity mimic;
-                switch (((DyeItem) itemstack.getItem()).getColor().getId()) {
-                    default -> mimic = initEntities.GOAT_WHITE.create(this.world);
-                    case 1 -> mimic = initEntities.GOAT_ORANGE.create(this.world);
-                    case 2 -> mimic = initEntities.GOAT_MAGENTA.create(this.world);
-                    case 3 -> mimic = initEntities.GOAT_LIGHT_BLUE.create(this.world);
-                    case 4 -> mimic = initEntities.GOAT_YELLOW.create(this.world);
-                    case 5 -> mimic = initEntities.GOAT_LIME.create(this.world);
-                    case 6 -> mimic = initEntities.GOAT_PINK.create(this.world);
-                    case 7 -> mimic = initEntities.GOAT_GRAY.create(this.world);
-                    case 8 -> mimic = initEntities.GOAT_LIGHT_GRAY.create(this.world);
-                    case 9 -> mimic = initEntities.GOAT_CYAN.create(this.world);
-                    case 10 -> mimic = initEntities.GOAT_PURPLE.create(this.world);
-                    case 11 -> mimic = initEntities.GOAT_BLUE.create(this.world);
-                    case 12 -> mimic = initEntities.GOAT_BROWN.create(this.world);
-                    case 13 -> mimic = initEntities.GOAT_GREEN.create(this.world);
-                    case 14 -> mimic = initEntities.GOAT_RED.create(this.world);
-                    case 15 -> mimic = initEntities.GOAT_BLACK.create(this.world);
-                }
-
-                if (mimic != null) {
-                    NbtCompound oldGoat = this.writeNbt(new NbtCompound());
-                    oldGoat.remove("UUID");
-                    mimic.readNbt(oldGoat);
-
-                    this.world.spawnEntity(mimic);
-                }
+                DyeColor dd = ((DyeItem) itemstack.getItem()).getColor();
+                this.dataTracker.set(iGOAT_COLOUR, (byte)dd.ordinal());
+//                this.dataTracker.set(sTEXTURE, getTexture(dd.ord));
+                this.texture = new Identifier(CrimsonGoats.MOD_ID, "textures/entity/goat_" + dd.getName());
 
                 return ActionResult.SUCCESS;
 
@@ -126,34 +105,65 @@ public class CrimsonGoatEntity extends GoatEntity {
 
     @Override
     public GoatEntity createChild(ServerWorld serverWorld, PassiveEntity passiveEntity) {
-        CrimsonGoatEntity mimic;
-        switch (this.iGOAT_COLOUR) {
-            default -> mimic = initEntities.GOAT_WHITE.create(this.world);
-            case 1 -> mimic = initEntities.GOAT_ORANGE.create(this.world);
-            case 2 -> mimic = initEntities.GOAT_MAGENTA.create(this.world);
-            case 3 -> mimic = initEntities.GOAT_LIGHT_BLUE.create(this.world);
-            case 4 -> mimic = initEntities.GOAT_YELLOW.create(this.world);
-            case 5 -> mimic = initEntities.GOAT_LIME.create(this.world);
-            case 6 -> mimic = initEntities.GOAT_PINK.create(this.world);
-            case 7 -> mimic = initEntities.GOAT_GRAY.create(this.world);
-            case 8 -> mimic = initEntities.GOAT_LIGHT_GRAY.create(this.world);
-            case 9 -> mimic = initEntities.GOAT_CYAN.create(this.world);
-            case 10 -> mimic = initEntities.GOAT_PURPLE.create(this.world);
-            case 11 -> mimic = initEntities.GOAT_BLUE.create(this.world);
-            case 12 -> mimic = initEntities.GOAT_BROWN.create(this.world);
-            case 13 -> mimic = initEntities.GOAT_GREEN.create(this.world);
-            case 14 -> mimic = initEntities.GOAT_RED.create(this.world);
-            case 15 -> mimic = initEntities.GOAT_BLACK.create(this.world);
-            case 16 -> mimic = initEntities.GOAT_MISSING.create(this.world);
-        }
+        CrimsonGoatEntity mimic = initEntities.GOAT.create(this.world);
 
         if (mimic != null) {
             GoatBrain.resetLongJumpCooldown(mimic);     // TODO: access widener
             boolean bl = passiveEntity instanceof CrimsonGoatEntity && ((CrimsonGoatEntity)passiveEntity).isScreaming();
             mimic.setScreaming(bl || serverWorld.getRandom().nextDouble() < 0.02D);
-            mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
+            mimic.dataTracker.set(iGOAT_COLOUR, this.dataTracker.get(iGOAT_COLOUR));
         }
 
         return mimic;
+    }
+
+    @Nullable
+    @Override
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        DyeColor dd = generateDefaultColor(world.getRandom());
+
+        this.dataTracker.set(iGOAT_COLOUR, (byte)dd.ordinal());
+        this.texture = new Identifier(CrimsonGoats.MOD_ID, "textures/entity/" + dd.getName() + ".png");
+
+        return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+    }
+
+    public DyeColor generateDefaultColor(Random random) {
+        return DyeColor.byId(random.nextInt(16));
+        //        int i = random.nextInt(100);
+//        if (i < 5) {
+//            return DyeColor.BLACK;
+//        } else if (i < 10) {
+//            return DyeColor.GRAY;
+//        } else if (i < 15) {
+//            return DyeColor.LIGHT_GRAY;
+//        } else if (i < 18) {
+//            return DyeColor.BROWN;
+//        } else {
+//            return random.nextInt(500) == 0 ? DyeColor.PINK : DyeColor.WHITE;
+//        }
+    }
+
+    public void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+        nbt.putBoolean("Sheared", this.dataTracker.get(iSHEARED));
+        nbt.putByte("Color", this.dataTracker.get(iGOAT_COLOUR));
+    }
+
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+
+        if (nbt.contains("Sheared"))
+            this.dataTracker.set(iSHEARED, nbt.getBoolean("Sheared"));
+
+        if (nbt.contains("Color"))
+            this.dataTracker.set(iGOAT_COLOUR, nbt.getByte("Color"));
+    }
+
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(iGOAT_COLOUR, (byte)0);
+        this.dataTracker.startTracking(iSHEARED, false);
     }
 }
