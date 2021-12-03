@@ -4,15 +4,19 @@ import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import crimsonfluff.crimsongoats.init.itemsInit;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.goat.Goat;
+import net.minecraft.world.entity.animal.goat.GoatAi;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
@@ -23,24 +27,16 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 
 public class CrimsonGoatEntity extends Goat {
-    private final int iGOAT_COLOUR;
+    private int iGOAT_COLOUR;
 
     public CrimsonGoatEntity(EntityType<? extends Goat> entityIn, Level levelIn, int GOAT_COLOUR) {
         super(entityIn, levelIn);
         this.iGOAT_COLOUR = GOAT_COLOUR;
     }
 
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-            .add(Attributes.MAX_HEALTH, 10.0D)
-            .add(Attributes.ATTACK_DAMAGE, 2.0D)
-            .add(Attributes.MOVEMENT_SPEED, 0.2D);
-    }
-
     public InteractionResult mobInteract(Player playerIn, InteractionHand hand) {
         ItemStack itemstack = playerIn.getItemInHand(hand);
         if (itemstack.getItem() instanceof ShearsItem) {        // allow modded shears
-
             if (! CrimsonGoats.CONFIGURATION.enableShearing.get()) return InteractionResult.CONSUME;
 
             if (! this.level.isClientSide && ! this.isBaby()) {
@@ -82,6 +78,9 @@ public class CrimsonGoatEntity extends Goat {
                         oldGoat.remove("UUID");
                         mimic.load(oldGoat);
 
+                        mimic.yBodyRot = this.yBodyRot;
+                        mimic.yHeadRot = this.yHeadRot;
+
                         mimic.iGOAT_COLOUR = this.iGOAT_COLOUR;
                         this.level.addFreshEntity(mimic);
 
@@ -91,7 +90,6 @@ public class CrimsonGoatEntity extends Goat {
 
                 return InteractionResult.SUCCESS;
             }
-            else return InteractionResult.CONSUME;
 
         } else if (itemstack.getItem() instanceof DyeItem) {
             if (! this.level.isClientSide) {
@@ -122,13 +120,73 @@ public class CrimsonGoatEntity extends Goat {
                     oldGoat.remove("UUID");
                     mimic.load(oldGoat);
 
+                    mimic.yBodyRot = this.yBodyRot;
+                    mimic.yHeadRot = this.yHeadRot;
+
                     this.level.addFreshEntity(mimic);
                 }
 
                 return InteractionResult.SUCCESS;
+            }
+        }
 
-            } else return InteractionResult.CONSUME;
+        return super.mobInteract(playerIn, hand);
+    }
 
-        } else return super.mobInteract(playerIn, hand);
+    @Override
+    public CrimsonGoatEntity getBreedOffspring(ServerLevel world, AgeableMob ageableMob) {
+        return getBreedOffSpringS(this.iGOAT_COLOUR, world, ageableMob);
+    }
+
+    @Override
+    public boolean canBreed() {
+        return true;
+    }
+
+    public static CrimsonGoatEntity getBreedOffSpringS(int colour, ServerLevel world, AgeableMob ageableMob) {
+        CrimsonGoatEntity mimic;
+        switch (colour) {
+            default -> mimic = entitiesInit.GOAT_WHITE.get().create(world);
+            case 1 -> mimic = entitiesInit.GOAT_ORANGE.get().create(world);
+            case 2 -> mimic = entitiesInit.GOAT_MAGENTA.get().create(world);
+            case 3 -> mimic = entitiesInit.GOAT_LIGHT_BLUE.get().create(world);
+            case 4 -> mimic = entitiesInit.GOAT_YELLOW.get().create(world);
+            case 5 -> mimic = entitiesInit.GOAT_LIME.get().create(world);
+            case 6 -> mimic = entitiesInit.GOAT_PINK.get().create(world);
+            case 7 -> mimic = entitiesInit.GOAT_GRAY.get().create(world);
+            case 8 -> mimic = entitiesInit.GOAT_LIGHT_GRAY.get().create(world);
+            case 9 -> mimic = entitiesInit.GOAT_CYAN.get().create(world);
+            case 10 -> mimic = entitiesInit.GOAT_PURPLE.get().create(world);
+            case 11 -> mimic = entitiesInit.GOAT_BLUE.get().create(world);
+            case 12 -> mimic = entitiesInit.GOAT_BROWN.get().create(world);
+            case 13 -> mimic = entitiesInit.GOAT_GREEN.get().create(world);
+            case 14 -> mimic = entitiesInit.GOAT_RED.get().create(world);
+            case 15 -> mimic = entitiesInit.GOAT_BLACK.get().create(world);
+            case 16 -> mimic = entitiesInit.GOAT_MISSING.get().create(world);
+        }
+
+        if (mimic != null) {
+            GoatAi.initMemories(mimic);
+
+            boolean bl = ageableMob instanceof CrimsonGoatEntity && ((CrimsonGoatEntity)ageableMob).isScreamingGoat();
+            mimic.setScreamingGoat(bl || world.getRandom().nextDouble() < 0.02D);
+            mimic.iGOAT_COLOUR = colour;
+        }
+
+        return mimic;
+    }
+
+    @Override
+    public void spawnChildFromBreeding(ServerLevel p_27564_, Animal p_27565_) {
+        super.spawnChildFromBreeding(p_27564_, p_27565_);
+    }
+
+    @Override
+    public boolean canMate(Animal animal) {
+        if (this.isInLove() && animal.isInLove()) {
+            return animal instanceof CrimsonGoatEntity || animal instanceof CrimsonGoatShearedEntity;
+        }
+
+        return false;
     }
 }

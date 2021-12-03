@@ -31,7 +31,7 @@ public class CommonEvents {
             event.setCanceled(true);
 
             CrimsonGoatEntity mimic;
-            switch (event.getWorld().random.nextInt(17)) {
+            switch (event.getWorld().random.nextInt(16)) {
                 default -> mimic = entitiesInit.GOAT_WHITE.get().create(event.getWorld());
                 case 1 -> mimic = entitiesInit.GOAT_ORANGE.get().create(event.getWorld());
                 case 2 -> mimic = entitiesInit.GOAT_MAGENTA.get().create(event.getWorld());
@@ -55,6 +55,9 @@ public class CommonEvents {
                 oldGoat.remove("UUID");
                 mimic.load(oldGoat);
 
+                mimic.yBodyRot = event.getEntity().getYRot();
+                mimic.yHeadRot = event.getEntity().getYHeadRot();
+
                 event.getWorld().addFreshEntity(mimic);
             }
         }
@@ -64,12 +67,7 @@ public class CommonEvents {
     public static void onBiomeLoadingEvent(BiomeLoadingEvent event) {
         List<MobSpawnSettings.SpawnerData> spawns = event.getSpawns().getSpawner(MobCategory.CREATURE);
 
-//        spawns.forEach(mob-> {
-//            if (mob.type == EntityType.GOAT)
-//                CrimsonGoats.LOGGER.info("GOAT: " + mob.getWeight() + " : " + mob.minCount + " : " + mob.maxCount);
-//        });
-
         if (spawns.removeIf(e -> e.type == EntityType.GOAT))
-            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_WHITE.get(), 10, 4, 6));
+            spawns.add(new MobSpawnSettings.SpawnerData(entitiesInit.GOAT_WHITE.get(), 5, 1, 3));
     }
 }

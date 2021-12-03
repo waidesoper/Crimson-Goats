@@ -3,10 +3,13 @@ package crimsonfluff.crimsongoats.entities;
 import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.entitiesInit;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.goat.Goat;
 import net.minecraft.world.level.Level;
 
@@ -17,13 +20,6 @@ public class CrimsonGoatShearedEntity extends Goat {
     public CrimsonGoatShearedEntity(EntityType<? extends Goat> entityIn, Level levelIn) {
         super(entityIn, levelIn);
         this.iGOAT_TIMER = random.nextInt(2000) + 2000;
-    }
-
-    public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-            .add(Attributes.MAX_HEALTH, 10.0D)
-            .add(Attributes.ATTACK_DAMAGE, 2.0D)
-            .add(Attributes.MOVEMENT_SPEED, 0.2D);
     }
 
     @Override
@@ -79,10 +75,27 @@ public class CrimsonGoatShearedEntity extends Goat {
                 oldGoat.remove("UUID");
                 mimic.load(oldGoat);
 
+                mimic.yBodyRot = this.yBodyRot;
+                mimic.yHeadRot = this.yHeadRot;
+
                 this.level.addFreshEntity(mimic);
             }
 
             this.remove(RemovalReason.DISCARDED);
         }
+    }
+
+    @Override
+    public boolean canMate(Animal animal) {
+        if (this.isInLove() && animal.isInLove()) {
+            return animal instanceof CrimsonGoatEntity || animal instanceof CrimsonGoatShearedEntity;
+        }
+
+        return false;
+    }
+
+    @Override
+    public CrimsonGoatEntity getBreedOffspring(ServerLevel world, AgeableMob ageableMob) {
+        return CrimsonGoatEntity.getBreedOffSpringS(this.iGOAT_COLOUR, world, ageableMob);
     }
 }
