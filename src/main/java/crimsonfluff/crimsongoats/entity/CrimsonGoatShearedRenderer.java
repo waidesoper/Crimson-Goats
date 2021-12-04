@@ -1,6 +1,7 @@
 package crimsonfluff.crimsongoats.entity;
 
 import crimsonfluff.crimsongoats.CrimsonGoats;
+import crimsonfluff.crimsongoats.client.initClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -12,7 +13,7 @@ public class CrimsonGoatShearedRenderer extends MobEntityRenderer<CrimsonGoatShe
     private final Identifier TEXTURE;
 
     public CrimsonGoatShearedRenderer(EntityRendererFactory.Context context, Identifier textureIn) {
-        super(context, new CrimsonGoatShearedModel(context.getPart(CrimsonGoats.GOAT_SHEARED_MODEL_LOC)), 0.7F);
+        super(context, new CrimsonGoatShearedModel(context.getPart(initClient.GOAT_SHEARED_MODEL_LOC)), 0.7F);
         TEXTURE = textureIn;
     }
 

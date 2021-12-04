@@ -1,11 +1,12 @@
 {
   "homepage": "https://www.curseforge.com/minecraft/mc-mods/crimson-goats-fabric",
   "promos": {
-    "1.18-latest": "1.0.1",
-    "1.18-recommended": "1.0.1"
+    "1.18-latest": "1.0.2",
+    "1.18-recommended": "1.0.2"
   },
   "1.18": {
     "1.0.0": "Fabric 1.18, v0.12.6. Minecraft 1.18",
-    "1.0.1": "Spawn Egg/Babies fix"
+    "1.0.1": "Spawn Egg/Babies fix",
+    "1.0.2": "Sheared Model Client<>Server fix"
   }
 }

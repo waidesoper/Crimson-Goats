@@ -10,10 +10,13 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.util.Identifier;
 
 @Environment(EnvType.CLIENT)
 public class initClient implements ClientModInitializer {
+    public static final EntityModelLayer GOAT_SHEARED_MODEL_LOC = new EntityModelLayer(new Identifier(CrimsonGoats.MOD_ID, "goat_sheared"), "goat_sheared");
+
     @Override
     public void onInitializeClient() {
         EntityRendererRegistry.register(initEntities.GOAT_WHITE, context -> new CrimsonGoatRenderer(context, new Identifier(CrimsonGoats.MOD_ID, "textures/entity/white.png")));
@@ -37,6 +40,6 @@ public class initClient implements ClientModInitializer {
         EntityRendererRegistry.register(initEntities.GOAT_SHEARED, context -> new CrimsonGoatShearedRenderer(context, new Identifier(CrimsonGoats.MOD_ID, "textures/entity/white.png")));
         EntityRendererRegistry.register(initEntities.GOAT_MISSING_SHEARED, context -> new CrimsonGoatShearedRenderer(context, new Identifier(CrimsonGoats.MOD_ID, "textures/entity/missing_sheared.png")));
 
-        EntityModelLayerRegistry.registerModelLayer(CrimsonGoats.GOAT_SHEARED_MODEL_LOC, CrimsonGoatShearedModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(GOAT_SHEARED_MODEL_LOC, CrimsonGoatShearedModel::getTexturedModelData);
     }
 }

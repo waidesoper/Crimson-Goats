@@ -33,8 +33,6 @@ public class CrimsonGoats implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger(CrimsonGoats.class);
     public static final ItemGroup CREATIVE_TAB = FabricItemGroupBuilder.build(new Identifier(MOD_ID, "tab"), () -> new ItemStack(initBlocks.MISSING_WOOL));
 
-    public static final EntityModelLayer GOAT_SHEARED_MODEL_LOC = new EntityModelLayer(new Identifier(CrimsonGoats.MOD_ID, "goat_sheared"), "goat_sheared");
-
 //    public static final CrimsonChickensConfig CONFIGURATION = AutoConfig.register(CrimsonChickensConfig.class, GsonConfigSerializer::new).getConfig();
 
     @Override

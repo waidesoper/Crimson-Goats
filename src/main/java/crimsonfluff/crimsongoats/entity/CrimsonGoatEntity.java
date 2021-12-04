@@ -2,8 +2,10 @@ package crimsonfluff.crimsongoats.entity;
 
 import crimsonfluff.crimsongoats.init.initBlocks;
 import crimsonfluff.crimsongoats.init.initEntities;
+import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.passive.GoatBrain;
 import net.minecraft.entity.passive.GoatEntity;
 import net.minecraft.entity.passive.PassiveEntity;
@@ -18,8 +20,13 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Random;
 
 public class CrimsonGoatEntity extends GoatEntity {
     private int iGOAT_COLOUR;
