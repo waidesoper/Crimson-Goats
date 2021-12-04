@@ -3,8 +3,8 @@
   "promos": {
     "1.17.1-latest": "1.0.3",
     "1.17.1-recommended": "1.0.3",
-    "1.18-latest": "1.0.1",
-    "1.18-recommended": "1.0.1"
+    "1.18-latest": "1.0.2",
+    "1.18-recommended": "1.0.2"
   },
   "1.17.1": {
     "1.0.0": "Initial Release. MC 1.17.1, Forge 37.0.8",
@@ -14,6 +14,7 @@
   },
   "1.18": {
     "1.0.0": "Initial Release. MC 1.18, Forge 38.0.1",
-    "1.0.1": "Spawn Egg/Babies fix"
+    "1.0.1": "Forge 38.0.12. Spawn Egg/Babies fix",
+    "1.0.2": "Sheared Server<>Client fix"
   }
 }

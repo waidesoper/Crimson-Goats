@@ -23,8 +23,6 @@ public class CrimsonGoats {
     public static final Logger LOGGER = LogManager.getLogger(CrimsonGoats.MOD_ID);
     public static final ConfigBuilder CONFIGURATION = new ConfigBuilder();
 
-    public static final ModelLayerLocation GOAT_SHEARED_MODEL_LOC = new ModelLayerLocation(new ResourceLocation(CrimsonGoats.MOD_ID, "crimson.goat"), "crimson.goat");
-
     public CrimsonGoats() {
         entitiesInit.ENTITIES.register(FMLJavaModLoadingContext.get().getModEventBus());
         itemsInit.ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
