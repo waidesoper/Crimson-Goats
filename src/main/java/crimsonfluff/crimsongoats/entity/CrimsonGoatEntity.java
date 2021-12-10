@@ -14,6 +14,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.GoatBrain;
 import net.minecraft.entity.passive.GoatEntity;
 import net.minecraft.entity.passive.PassiveEntity;
+import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.ItemStack;
@@ -157,7 +158,7 @@ public class CrimsonGoatEntity extends GoatEntity {
         CrimsonGoatEntity mimic = initEntities.GOAT.create(this.world);
 
         if (mimic != null) {
-            GoatBrain.resetLongJumpCooldown(mimic);     // TODO: access widener
+            GoatBrain.resetLongJumpCooldown(mimic);     // Note: access widener
             boolean bl = passiveEntity instanceof CrimsonGoatEntity && ((CrimsonGoatEntity)passiveEntity).isScreaming();
             mimic.setScreaming(bl || serverWorld.getRandom().nextDouble() < 0.02D);
             mimic.dataTracker.set(iGOAT_COLOUR, this.dataTracker.get(iGOAT_COLOUR));
@@ -169,7 +170,8 @@ public class CrimsonGoatEntity extends GoatEntity {
     @Nullable
     @Override
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
-        DyeColor dd = generateDefaultColor(world.getRandom());
+        DyeColor dd = SheepEntity.generateDefaultColor(world.getRandom());
+//        DyeColor dd = generateDefaultColor(world.getRandom());
 
         this.dataTracker.set(iGOAT_COLOUR, (byte)dd.ordinal());
         this.texture = new Identifier(CrimsonGoats.MOD_ID, "textures/entity/" + dd.getName() + ".png");
@@ -177,20 +179,8 @@ public class CrimsonGoatEntity extends GoatEntity {
         return super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
     }
 
-    public DyeColor generateDefaultColor(Random random) {
+    private DyeColor generateDefaultColor(Random random) {
         return DyeColor.byId(random.nextInt(16));       // not including 'Missing' texture
-        //        int i = random.nextInt(100);
-//        if (i < 5) {
-//            return DyeColor.BLACK.ordinal();
-//        } else if (i < 10) {
-//            return DyeColor.GRAY.ordinal();
-//        } else if (i < 15) {
-//            return DyeColor.LIGHT_GRAY.ordinal();
-//        } else if (i < 18) {
-//            return DyeColor.BROWN.ordinal();
-//        } else {
-//            return random.nextInt(500) == 0 ? DyeColor.PINK.ordinal() : DyeColor.WHITE.ordinal();
-//        }
     }
 
     public void writeCustomDataToNbt(NbtCompound nbt) {
