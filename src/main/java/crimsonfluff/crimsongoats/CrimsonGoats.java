@@ -46,7 +46,7 @@ public class CrimsonGoats implements ModInitializer {
             List<SpawnSettings.SpawnEntry> spawns = biome.getSpawnSettings().getSpawnEntries(SpawnGroup.CREATURE).getEntries();
             if (spawns.stream().anyMatch(tag -> tag.type == EntityType.GOAT)) {
                 BiomeModifications.create(goatID).add(ModificationPhase.REMOVALS, BiomeSelectors.categories(biome.getCategory()), context -> {
-                    context.getSpawnSettings().removeSpawnsOfEntityType(EntityType.CHICKEN);
+                    context.getSpawnSettings().removeSpawnsOfEntityType(EntityType.GOAT);
                 });
                 BiomeModifications.addSpawn(BiomeSelectors.categories(biome.getCategory()), SpawnGroup.CREATURE, initEntities.GOAT_WHITE, 5, 1, 3);
             }
