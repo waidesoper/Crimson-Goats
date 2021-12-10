@@ -1,26 +1,6 @@
 {
   "itemGroup.crimsongoats": "Crimson Goats",
 
-  "entity.crimsongoats.goat_white": "White Goat",
-  "entity.crimsongoats.goat_orange": "Orange Goat",
-  "entity.crimsongoats.goat_magenta": "Magenta Goat",
-  "entity.crimsongoats.goat_light_blue": "Light Blue Goat",
-  "entity.crimsongoats.goat_yellow": "Yellow Goat",
-  "entity.crimsongoats.goat_lime": "Lime Goat",
-  "entity.crimsongoats.goat_pink": "Pink Goat",
-  "entity.crimsongoats.goat_gray": "Gray Goat",
-  "entity.crimsongoats.goat_light_gray": "Light Gray Goat",
-  "entity.crimsongoats.goat_cyan": "Cyan Goat",
-  "entity.crimsongoats.goat_blue": "Blue Goat",
-  "entity.crimsongoats.goat_brown": "Brown Goat",
-  "entity.crimsongoats.goat_green": "Green Goat",
-  "entity.crimsongoats.goat_red": "Red Goat",
-  "entity.crimsongoats.goat_black": "Black Goat",
-  "entity.crimsongoats.goat_purple": "Purple Goat",
-  "entity.crimsongoats.goat_missing": "The 'Missing' Goat",
-  "entity.crimsongoats.goat_missing_sheared": "Sheared 'Missing' Goat",
-  "entity.crimsongoats.goat_sheared": "Sheared Goat",
-
   "item.crimsongoats.goat_white_spawn_egg": "White Goat Spawn Egg",
   "item.crimsongoats.goat_orange_spawn_egg": "Orange Goat Spawn Egg",
   "item.crimsongoats.goat_magenta_spawn_egg": "Magenta Goat Spawn Egg",
@@ -42,5 +22,25 @@
   "block.crimsongoats.missing_wool": "The 'Missing' Goat Wool",
 
   "item.crimsongoats.goat_steak": "Goat Steak",
-  "item.crimsongoats.goat_steak_cooked": "Goat Steak Cooked"
+  "item.crimsongoats.goat_steak_cooked": "Goat Steak Cooked",
+
+  "entity.crimsongoats.goat": "Goat",
+
+  "colour.0": "White",
+  "colour.1": "Orange",
+  "colour.2": "Magenta",
+  "colour.3": "Light Blue",
+  "colour.4": "Yellow",
+  "colour.5": "Lime",
+  "colour.6": "Pink",
+  "colour.7": "Gray",
+  "colour.8": "Light Gray",
+  "colour.9": "Cyan",
+  "colour.10": "Purple",
+  "colour.11": "Blue",
+  "colour.12": "Brown",
+  "colour.13": "Green",
+  "colour.14": "Red",
+  "colour.15": "Black",
+  "colour.16": "'Missing'"
 }

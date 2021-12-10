@@ -6,7 +6,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.QuadrupedEntityModel;
 
 @Environment(EnvType.CLIENT)
-public class CrimsonGoatShearedModel<T extends CrimsonGoatShearedEntity> extends QuadrupedEntityModel<T> {
+public class CrimsonGoatShearedModel<T extends CrimsonGoatEntity> extends QuadrupedEntityModel<T> {
     public CrimsonGoatShearedModel(ModelPart root) {
         super(root, true, 19.0F, 1.0F, 2.5F, 2.0F, 24);
     }
