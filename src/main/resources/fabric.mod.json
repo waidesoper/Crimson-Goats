@@ -8,7 +8,7 @@
     "Crimson_Fluff"
   ],
   "contact": {
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/crimson-goats-fabric",
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/crimson-goats",
     "sources": "https://github.com/CrimsonFluff/Crimson-Goats"
   },
   "license": "GPL-3.0",
@@ -20,8 +20,8 @@
   },
   "accessWidener" : "crimsongoats.accesswidener",
   "depends": {
-    "fabricloader": ">=0.12.6",
+    "fabricloader": ">=0.12.11",
     "fabric": "*",
-    "minecraft": "1.18"
+    "minecraft": "1.18.1"
   }
 }

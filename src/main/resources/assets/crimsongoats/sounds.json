@@ -1,0 +1,9 @@
+{
+  "goaty": {
+    "category": "entity",
+    "subtitle": "subtitle.crimsongoats.goaty",
+    "sounds": [
+      "crimsongoats:goaty"
+    ]
+  }
+}

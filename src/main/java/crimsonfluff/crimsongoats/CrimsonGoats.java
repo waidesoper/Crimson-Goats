@@ -1,9 +1,6 @@
 package crimsonfluff.crimsongoats;
 
-import crimsonfluff.crimsongoats.init.initAttributes;
-import crimsonfluff.crimsongoats.init.initBlocks;
-import crimsonfluff.crimsongoats.init.initEntities;
-import crimsonfluff.crimsongoats.init.initItems;
+import crimsonfluff.crimsongoats.init.*;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -23,6 +20,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+//  /summon crimsongoats:goat ~ ~ ~ {IsScreamingGoat:1}
+//  /summon crimsongoats:goat ~ ~ ~ {IsScreamingGoat:1, Colour:5}
+
 public class CrimsonGoats implements ModInitializer {
     public static final String MOD_ID = "crimsongoats";
     public static final Logger LOGGER = LogManager.getLogger(CrimsonGoats.class);
@@ -37,6 +37,7 @@ public class CrimsonGoats implements ModInitializer {
         initItems.register();
         initBlocks.register();
         initAttributes.register();
+		initSounds.register();
 
         Identifier goatID = Registry.ENTITY_TYPE.getId(EntityType.GOAT);
         BuiltinRegistries.BIOME.forEach(biome -> {

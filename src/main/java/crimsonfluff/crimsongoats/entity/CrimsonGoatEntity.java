@@ -3,6 +3,7 @@ package crimsonfluff.crimsongoats.entity;
 import crimsonfluff.crimsongoats.CrimsonGoats;
 import crimsonfluff.crimsongoats.init.initBlocks;
 import crimsonfluff.crimsongoats.init.initEntities;
+import crimsonfluff.crimsongoats.init.initSounds;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
@@ -23,6 +24,7 @@ import net.minecraft.item.ShearsItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.*;
 import net.minecraft.util.ActionResult;
@@ -229,5 +231,18 @@ public class CrimsonGoatEntity extends GoatEntity {
         }
 
         return mutableText;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        if (isScreaming())
+            return world.random.nextInt(100) < 10 ? initSounds.SOUND_GOATY_EVENT : SoundEvents.ENTITY_GOAT_SCREAMING_HURT;
+
+        return SoundEvents.ENTITY_GOAT_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return this.isScreaming() ? initSounds.SOUND_GOATY_EVENT : SoundEvents.ENTITY_GOAT_DEATH;
     }
 }

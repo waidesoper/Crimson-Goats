@@ -30,7 +30,7 @@ public class CrimsonGoatRenderer extends MobEntityRenderer<CrimsonGoatEntity, Go
     private static final CrimsonGoatShearedModel<CrimsonGoatEntity> chickenModel = new CrimsonGoatShearedModel<>(CrimsonGoatShearedModel.getTexturedModelData().createModel());
 
     public CrimsonGoatRenderer(EntityRendererFactory.Context context) {
-        super(context, new GoatEntityModel(context.getPart(EntityModelLayers.GOAT)), 0.7F);
+        super(context, new GoatEntityModel<>(context.getPart(EntityModelLayers.GOAT)), 0.7F);
     }
 
 //    @Nullable
